@@ -7,3 +7,14 @@
 Вот так выглядит админ-панель:
 
 ![image](https://github.com/user-attachments/assets/70e8569f-6c11-4e50-86bd-1ce790eaaba4)
+
+
+а вот так выглядит само облако:
+
+![image](https://github.com/user-attachments/assets/68a9f75d-f31b-4f81-9c09-be01f395407e)
+
+
+
+Оно не хранит видео на сервере, а потом удаляет, оно хранит его в оперативе 
+
+![Uploading image.png…]()

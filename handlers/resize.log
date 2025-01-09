@@ -1,0 +1,92 @@
+### resize
+Checking that no-one is using this disk right now ... OK
+
+Disk /dev/vda: 15 GiB, 16106127360 bytes, 31457280 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x84e747e5
+
+Old situation:
+
+Device     Boot Start      End  Sectors Size Id Type
+/dev/vda1  *     2048 10483711 10481664   5G 83 Linux
+
+/dev/vda1: 
+New situation:
+
+Device     Boot Start      End  Sectors Size Id Type
+/dev/vda1  *     2048 31457279 31455232  15G 83 Linux
+
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+/dev/vda1: recovering journal
+Clearing orphaned inode 151819 (uid=0, gid=4, mode=040750, size=4096)
+Clearing orphaned inode 132203 (uid=0, gid=0, mode=0100644, size=0)
+Clearing orphaned inode 180260 (uid=0, gid=0, mode=040700, size=4096)
+Clearing orphaned inode 180261 (uid=0, gid=0, mode=041777, size=4096)
+Clearing orphaned inode 180254 (uid=0, gid=0, mode=040700, size=4096)
+Clearing orphaned inode 180255 (uid=0, gid=0, mode=041777, size=4096)
+Clearing orphaned inode 180271 (uid=0, gid=0, mode=040700, size=4096)
+Clearing orphaned inode 180272 (uid=0, gid=0, mode=041777, size=4096)
+Clearing orphaned inode 180430 (uid=0, gid=0, mode=040700, size=4096)
+Clearing orphaned inode 180431 (uid=0, gid=0, mode=041777, size=4096)
+Clearing orphaned inode 32802 (uid=0, gid=0, mode=040700, size=4096)
+Clearing orphaned inode 32827 (uid=0, gid=0, mode=041777, size=4096)
+Clearing orphaned inode 32826 (uid=0, gid=0, mode=040700, size=4096)
+Clearing orphaned inode 32803 (uid=0, gid=0, mode=041777, size=4096)
+Clearing orphaned inode 32813 (uid=0, gid=0, mode=040700, size=4096)
+Clearing orphaned inode 32814 (uid=0, gid=0, mode=041777, size=4096)
+Clearing orphaned inode 32788 (uid=0, gid=0, mode=040700, size=4096)
+Clearing orphaned inode 32789 (uid=0, gid=0, mode=041777, size=4096)
+Clearing orphaned inode 32782 (uid=0, gid=0, mode=040700, size=4096)
+Clearing orphaned inode 32820 (uid=0, gid=0, mode=040700, size=4096)
+Clearing orphaned inode 32821 (uid=0, gid=0, mode=041777, size=4096)
+Clearing orphaned inode 1091 (uid=0, gid=0, mode=0100755, size=473)
+Clearing orphaned inode 141439 (uid=0, gid=0, mode=0100644, size=63744)
+Clearing orphaned inode 141312 (uid=0, gid=0, mode=0100644, size=63992)
+Clearing orphaned inode 141313 (uid=0, gid=0, mode=0100644, size=376512)
+Clearing orphaned inode 141399 (uid=0, gid=0, mode=0100644, size=105376)
+Clearing orphaned inode 141270 (uid=0, gid=0, mode=0100644, size=343584)
+Clearing orphaned inode 141309 (uid=0, gid=0, mode=0100644, size=338648)
+Clearing orphaned inode 141310 (uid=0, gid=0, mode=0100644, size=827936)
+Clearing orphaned inode 147419 (uid=0, gid=0, mode=0100644, size=52016)
+Clearing orphaned inode 131298 (uid=0, gid=0, mode=0100644, size=182864)
+Clearing orphaned inode 134319 (uid=0, gid=0, mode=0100644, size=347096)
+Clearing orphaned inode 141183 (uid=0, gid=0, mode=0100644, size=1838528)
+Clearing orphaned inode 141294 (uid=0, gid=0, mode=0100644, size=35440)
+Clearing orphaned inode 141217 (uid=0, gid=0, mode=0100644, size=488816)
+Clearing orphaned inode 141181 (uid=0, gid=0, mode=0100644, size=80768)
+Clearing orphaned inode 132233 (uid=0, gid=0, mode=0100644, size=166240)
+Clearing orphaned inode 145874 (uid=0, gid=0, mode=0100755, size=264712)
+Clearing orphaned inode 141296 (uid=0, gid=0, mode=0100755, size=1849992)
+Clearing orphaned inode 141200 (uid=0, gid=0, mode=0100644, size=2840280)
+Clearing orphaned inode 26090 (uid=0, gid=0, mode=0100644, size=472008)
+Clearing orphaned inode 131262 (uid=0, gid=0, mode=0100644, size=807936)
+Clearing orphaned inode 134484 (uid=0, gid=0, mode=0100644, size=309600)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+Free blocks count wrong (364912, counted=350797).
+Fix? yes
+
+Free inodes count wrong (245909, counted=245170).
+Fix? yes
+
+
+/dev/vda1: ***** FILE SYSTEM WAS MODIFIED *****
+/dev/vda1: 82510/327680 files (0.2% non-contiguous), 959411/1310208 blocks
+Resizing the filesystem on /dev/vda1 to 3931904 (4k) blocks.
+The filesystem on /dev/vda1 is now 3931904 (4k) blocks long.
+
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/vda1: 82510/983040 files (0.2% non-contiguous), 1001813/3931904 blocks
+Wed Oct 25 14:40:47 UTC 2023

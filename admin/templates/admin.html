@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('css', path='/util.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('css', path='/main.css') }}">
+    <title>Панель Администратора</title>
+</head>
+<body>
+    <div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+					<div class="table">
+
+						<div class="row header">
+							<div class="cell">
+								Id
+							</div>
+							<div class="cell">
+								Chat_ID
+							</div>
+							<div class="cell">
+								Username
+							</div>
+							<div class="cell">
+								Тип файла
+							</div>
+                            <div class="cell">
+								Ссылка
+							</div>
+                            <div class="cell">
+								Название файла
+							</div>
+                            <div class="cell">
+								Размер файла
+							</div>
+                            <div class="cell">
+								Время скачивания
+							</div>
+						</div>
+                        {% for d in downloads %}
+						<div class="row">
+							<div class="cell">
+								{{ d.id }}
+							</div>
+							<div class="cell">
+								{{ d.user_id }}
+							</div>
+							<div class="cell" >
+								{{ d.username }}
+							</div>
+							<div class="cell" >
+								{{ d.media_type }}
+							</div>
+                            <div class="cell" >
+								{{ d.url }}
+							</div>
+                            <div class="cell">
+								{{ d.title }}
+							</div>
+                            <div class="cell" >
+								{{ d.filesize }}
+							</div>
+                            <div class="cell" >
+								{{ d.timestamp }}
+							</div>
+						</div>
+                        {% endfor %}
+					</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

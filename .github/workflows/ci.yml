@@ -34,5 +34,6 @@ jobs:
       - name: Check import sorting with isort
         run: isort --check-only .
 
+
       - name: Run tests
         run: pytest

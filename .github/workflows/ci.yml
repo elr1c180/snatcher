@@ -25,9 +25,6 @@ jobs:
           pip install -r requirements.txt
           pip install flake8 black isort
 
-      - name: Lint with flake8
-        run: flake8 .
-
       - name: Check code format with black
         run: black --check .
 

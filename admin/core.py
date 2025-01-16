@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Float, create_engine, DateTime
 from sqlalchemy.orm import declarative_base, sessionmaker
 import pytz
+import os 
 
 Base = declarative_base()
 
@@ -21,8 +22,12 @@ class DownloadRecord(Base):
         default=lambda: datetime.now(Moscow).astimezone(Moscow).replace(microsecond=0)
     )  
 
+# Определяем абсолютный путь к базе данных
+base_dir = os.path.dirname(os.path.abspath(__file__))  # Путь к текущей директории, где запускается код
+db_path = os.path.join(base_dir, 'db.db')
 
-engine = create_engine("sqlite:///../db.db")  
+# Создаем подключение к базе данных
+engine = create_engine(f"sqlite:///{db_path}")
 SessionLocal = sessionmaker(bind=engine) 
 Base.metadata.create_all(bind=engine)
 

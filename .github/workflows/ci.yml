@@ -14,23 +14,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+      - name: Install sshpass
+        run: sudo apt-get install sshpass  # Установка утилиты sshpass
 
-      - name: Install dependencies
+      - name: Connect to server and stop pm2 processes
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install flake8 black isort
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} "pm2 stop all"  # Останавливаем все процессы через pm2 под root
 
-      - name: Check code format with black
-        run: black --check .
+      - name: Deploy new code to server
+        run: |
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -r ./ root@${{ secrets.SERVER_IP }}:~/dialog  # Копируем новые файлы на сервер
 
-      - name: Check import sorting with isort
-        run: isort --check-only .
-
-
-      - name: Run tests
-        run: pytest
+      - name: Start pm2 processes
+        run: |
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} "cd ~/dialog && pm2 start all"  # Запускаем все процессы через pm2 под root

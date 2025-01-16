@@ -91,47 +91,50 @@ def get_presigned_url(file_name):
         )
         return url
     except Exception as e:
-        print(f"Ошибка получения подписанной ссылки: {e}")
+        logger.error(f"Ошибка получения подписанной ссылки: {e}")
+        return None
 
-async def upload_to_yandex(file_path, file_name):
+# Функция для загрузки в Яндекс Облако
+async def upload_to_yandex(buffer, file_name):
     try:
-        storage = SDK.client("storage")
-        
-        # Загружаем файл в бакет
-        with open(file_path, "rb") as file:
-            storage.put_object(BUCKET_NAME, file_name, file)
+        # Перемещаемся в начало буфера перед отправкой
+        buffer.seek(0)
+
+        # Загружаем файл в бакет с использованием boto3
+        s3.put_object(Bucket=BUCKET_NAME, Key=file_name, Body=buffer)
 
         # Формируем публичную ссылку
         public_url = get_presigned_url(file_name)
+        
+        if not public_url:
+            logger.error(f"Не удалось получить подписанную ссылку для файла: {file_name}")
+            return None
+        
         return public_url
     except Exception as e:
         logger.error(f"Ошибка при загрузке в Яндекс Облако: {e}")
         return None
     
-async def download_and_send_video(message: types.Message, url: str):
+async def download_and_send_video(message: types.Message, yt_stream):
     try:
-        yt = YouTube(url, on_progress_callback=on_progress)
-        stream = yt.streams.get_highest_resolution()
-
         # Создаем буфер для потока данных
         buffer = io.BytesIO()
 
         # Скачиваем видео в память, записывая в буфер
-        stream.stream_to_buffer(buffer)
+        yt_stream.stream_to_buffer(buffer)
 
-        # Получаем данные из буфера
-        buffer.seek(0)  # Перемещаемся в начало буфера, чтобы прочитать его содержимое
-
-        # Загружаем файл в Yandex Cloud
-        file_name = f"{stream.title}.mp4"  # Можно изменить имя файла
-        public_url = upload_to_yandex(buffer, file_name)
+        # Загружаем файл в Яндекс Cloud
+        file_name = f"{yt_stream.title}.mp4"  # Можно изменить имя файла
+        public_url = await upload_to_yandex(buffer, file_name)
         
         if public_url:
             await message.reply(f"Ваше видео доступно по ссылке: {public_url}")
         else:
             await message.reply("Произошла ошибка при загрузке файла в облако.")
     except Exception as e:
+        logger.error(f"Произошла ошибка при обработке видео: {str(e)}")
         await message.reply(f"Произошла ошибка при обработке видео: {str(e)}")
+
 
 
 # Функция для скачивания и отправки аудио
@@ -150,7 +153,7 @@ async def download_and_send_audio(message, url):
         buffer.seek(0)  # Перемещаемся в начало буфера, чтобы прочитать его содержимое
 
         # Загружаем файл в Yandex Cloud
-        file_name = f"{stream.title}.mp4"  # Можно изменить имя файла
+        file_name = f"{stream.title}.mp3"  # Можно изменить имя файла
         public_url = upload_to_yandex(buffer, file_name)
         
         if public_url:
@@ -158,7 +161,7 @@ async def download_and_send_audio(message, url):
         else:
             await message.reply("Произошла ошибка при загрузке файла в облако.")
     except Exception as e:
-        await message.reply(f"Произошла ошибка при обработке видео: {str(e)}")
+        await message.reply(f"Произошла ошибка при обработке аудио: {str(e)}")
 
 # Хэндлер для выбора видео
 async def on_choose_video(c: CallbackQuery, button: Button, dialog_manager: DialogManager):
@@ -174,13 +177,14 @@ async def on_choose_video(c: CallbackQuery, button: Button, dialog_manager: Dial
         stream = yt.streams.get_highest_resolution()
 
         logger.info(log_download(user_id=user_id, username=username, media_type='video', url=url, title=yt.title, filesize=stream.filesize))
-
         logger.info(f"Видео {stream.default_filename} обрабатывается")
-        if stream.filesize > MAX_FILE_SIZE:
-            # await dialog_manager.start(MySG.choose_action, data={"url": url, "title": yt.title})
-            await dialog_manager.switch_to(MySG.choose_action)
-        else:
-            await download_and_send_video(c.message, stream)
+        # if stream.filesize > MAX_FILE_SIZE:
+        #     # await dialog_manager.start(MySG.choose_action, data={"url": url, "title": yt.title})
+        #     print('123123123123 оч много')
+        #     await dialog_manager.switch_to(MySG.choose_action)
+        # else:
+
+        await download_and_send_video(c.message, stream)
     except Exception as e:
         logger.error(f"Ошибка при обработке видео: {e}")
         await c.message.reply(f"Произошла ошибка при скачивании видео: {str(e)}")

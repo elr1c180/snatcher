@@ -19,12 +19,12 @@ jobs:
 
       - name: Stop pm2 processes on server
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} "pm2 stop all"  # Останавливаем все процессы через pm2 под root
+          sshpass -p "${{ snatcher.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ snatcher.SERVER_IP }} "pm2 stop all"  # Останавливаем все процессы через pm2 под root
 
       - name: Deploy new code to server
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -r ./ root@${{ secrets.SERVER_IP }}:~/dialog  # Копируем новые файлы на сервер
+          sshpass -p "${{ snatcher.SSH_PASSWORD }}" scp -r ./ root@${{ snatcher.SERVER_IP }}:~/dialog  # Копируем новые файлы на сервер
 
       - name: Start pm2 processes on server
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} "cd ~/dialog && pm2 start all"  # Запускаем все процессы через pm2 под root
+          sshpass -p "${{ snatcher.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ snatcher.SERVER_IP }} "cd ~/dialog && pm2 start all"  # Запускаем все процессы через pm2 под root

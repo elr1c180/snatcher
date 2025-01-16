@@ -9,14 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: snatcher  # Указываем окружение snatcher
+    environment: snatcher 
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Install sshpass
-        run: sudo apt-get install -y sshpass  # Установка утилиты sshpass
+        run: sudo apt-get install -y sshpass  
 
       - name: Stop pm2 processes on server
         run: |
